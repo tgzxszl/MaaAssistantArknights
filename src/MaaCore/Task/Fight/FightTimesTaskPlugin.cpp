@@ -130,12 +130,14 @@ void asst::FightTimesTaskPlugin::close_series_list(const cv::Mat& image)
 std::optional<int> asst::FightTimesTaskPlugin::change_series(int sanity_current, int sanity_cost, int series)
 {
     int fight_times_remain = std::min(m_fight_times_max - m_fight_times, 6);
-    if (!m_has_used_medicine && !m_is_medicine_exhausted) {
-        if (fight_times_remain != series) {
+    bool cantstone = if(sanity_current >= 43);
+    if (cantstone) {
             return select_series(false); // 调整到剩余次数
-        }
-        return series;
     }
+    if (!cantstone) {
+            return select_series(6); // 调整到剩余次数
+    }
+    
 
     if (m_has_used_medicine) {               // 用过药品, 认为已选择最大可用次数
         if (sanity_cost <= sanity_current) { // 吃药前一般选择最大可用次数, 吃完药已经够理智了
